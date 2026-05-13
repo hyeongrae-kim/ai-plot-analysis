@@ -148,6 +148,12 @@ if __name__ == '__main__':
   arg_parser.add_argument("--shuffle_dataset", type=str, default="0", help="0: not use, 1: use")
   arg_parser.add_argument("--do_txt_tag", type=str, default="1", help="0: not use, 1: use, default value is 1")
 
+  arg_parser.add_argument("--train_batch_size", type=int, default=8, help="override BASE_PARAMS.train_batch_size")
+  arg_parser.add_argument("--virtual_batch_size", type=int, default=8, help="override BASE_PARAMS.virtual_batch_size")
+  arg_parser.add_argument("--wei_loss_ratio", type=float, default=0.5, help="override BASE_PARAMS.wei_loss_ratio")
+  arg_parser.add_argument("--pos_loss_ratio", type=float, default=0.5, help="override BASE_PARAMS.pos_loss_ratio")
+  arg_parser.add_argument("--bio_loss_ratio", type=float, default=1.0, help="override BASE_PARAMS.bio_loss_ratio")
+
   args = arg_parser.parse_args()
   os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_ids
 
@@ -168,7 +174,13 @@ if __name__ == '__main__':
   hparams["evaluate"] = args.evaluate
   hparams["do_txt_tag"] = args.do_txt_tag == "1"
 
-  # Multi-task types (wei, pos, bio) 
+  hparams["train_batch_size"] = args.train_batch_size
+  hparams["virtual_batch_size"] = args.virtual_batch_size
+  hparams["wei_loss_ratio"] = args.wei_loss_ratio
+  hparams["pos_loss_ratio"] = args.pos_loss_ratio
+  hparams["bio_loss_ratio"] = args.bio_loss_ratio
+
+  # Multi-task types (wei, pos, bio)
   multi_task_types = args.multi_task_type.split(",") if args.multi_task_type != '' else []
 
   for mt_type in multi_task_types:
