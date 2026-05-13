@@ -16,7 +16,8 @@ from data.novel_plot_dataset import NovelPlotDataset
 from models.utils.checkpointing import CheckpointManager, load_checkpoint
 from models import Model
 from evaluation import Evaluation
-from transformers import AdamW, get_linear_schedule_with_warmup
+from torch.optim import AdamW
+from transformers import get_linear_schedule_with_warmup
 
 class PlotAnalysis(object): # Fine-tuning
   def __init__(self, hparams): # -> None
@@ -223,7 +224,9 @@ class PlotAnalysis(object): # Fine-tuning
           if task_tensor_loss is not None:
             loss = loss + task_tensor_loss if loss is not None else task_tensor_loss
 
-        loss.backward()
+        # loss.backward()
+        accum_steps = self.hparams.virtual_batch_size // self.hparams.train_batch_size
+        (loss / accum_steps).backward()
         accu_loss += loss.item()
         accu_cnt += 1
 
