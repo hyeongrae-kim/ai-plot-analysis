@@ -1,0 +1,27 @@
+[project]
+name = "ai-plot-analysis"
+version = "0.1.0"
+description = "Novel plot element analysis"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "torch",
+    "transformers>=4.40,<4.49",
+    "huggingface-hub",
+    "numpy",
+    "scikit-learn",
+    "matplotlib",
+    "seaborn",
+    "tqdm",
+    "pytz",
+    "tensorboard",
+    "sentencepiece",
+    "protobuf",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu130" }
