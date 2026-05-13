@@ -64,7 +64,9 @@ class NovelPlotDataset(Dataset):
           self._tokenizer = RobertaTokenizer.from_pretrained('roberta-large')
           self._logger.info(f"===========get roberta tokenizer==========")
         elif self.model_type.startswith("bge"):
-          self._tokenizer = AutoTokenizer.from_pretrained('BAAI/bge-m3')
+          self._tokenizer = AutoTokenizer.from_pretrained(
+            os.path.join(self.hparams.bert_pretrained_dir, self.hparams.bert_pretrained)
+          )
           self._logger.info(f"===========get bge-m3 tokenizer==========")
         else:
           bert_pretrained_dir = os.path.join(self.hparams.bert_pretrained_dir, self.hparams.bert_pretrained)

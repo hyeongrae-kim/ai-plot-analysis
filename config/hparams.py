@@ -13,24 +13,24 @@ from transformers import RobertaConfig, RobertaModel
 ## BGE-M3
 from transformers import AutoModel, AutoConfig
 
-BERT_MODEL_PARAMS = defaultdict(
-  pretrained_config=BertConfig.from_pretrained("bert-large-uncased"),
-  pretrained_model=BertModel.from_pretrained("bert-large-uncased")
+BERT_MODEL_PARAMS = dict(
+  pretrained_config=BertConfig,
+  pretrained_model=BertModel,
 )
 
-ELECTRA_MODEL_PARAMS = defaultdict(
-  pretrained_config = ElectraConfig.from_pretrained("google/electra-large-discriminator"),
-  pretrained_model = ElectraModel.from_pretrained("google/electra-large-discriminator")
+ELECTRA_MODEL_PARAMS = dict(
+  pretrained_config=ElectraConfig,
+  pretrained_model=ElectraModel,
 )
 
-ROBERTA_MODEL_PARAMS = defaultdict(
-  pretrained_config = RobertaConfig(),
-  pretrained_model = RobertaModel.from_pretrained("FacebookAI/roberta-base")
+ROBERTA_MODEL_PARAMS = dict(
+  pretrained_config=RobertaConfig,
+  pretrained_model=RobertaModel,
 )
 
-BGE_M3_MODEL_PARAMS = defaultdict(
-  pretrained_config = AutoConfig.from_pretrained("./resources/bge-m3/bge-m3-config.json"),
-  pretrained_model = AutoModel.from_pretrained('BAAI/bge-m3')
+BGE_M3_MODEL_PARAMS = dict(
+  pretrained_config=AutoConfig,
+  pretrained_model=AutoModel,
 )
 
 # DATASET
@@ -67,7 +67,7 @@ BASE_PARAMS = defaultdict(
 
   # Input params
   # more than 64 batch size over vram limit
-  train_batch_size=16,  # 8 - (32 - 64) 128 (+256) # 16,  # 32
+  train_batch_size=8,  # 8 - (32 - 64) 128 (+256) # 16,  # 32
   eval_batch_size=20,  # 250,  # 1000
   virtual_batch_size=16, # train_batch_size의 배수 # 32,
 
@@ -121,7 +121,7 @@ BASE_PARAMS = defaultdict(
   cpu_workers=4,
   tensorboard_step=100,
   evaluate_print_step=1000,
-  random_seed=random.sample(range(1000, 10000), 1)[0],  # 3143
+  random_seed=random.sample(range(1000, 10000), 1)[0],  # experiment value: 2270
 )
 
 # BERT_LARGE
