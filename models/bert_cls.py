@@ -15,40 +15,14 @@ class BertCls(nn.Module):
     self.hparams = hparams
     self._logger = logging.getLogger(__name__)
 
-    # example) ./resources/bert-base-uncased/bert-base-uncased-config.json
-    pretrained_config = hparams.pretrained_config.from_pretrained(
-        os.path.join(self.hparams.bert_pretrained_dir, self.hparams.bert_pretrained,
-          "%s-config.json" % self.hparams.bert_pretrained)
-    )
-
-    # example) ./resources/bert-base-uncased/bert-base-uncased-pytorch_model.bin
-    self.model_path = os.path.join(self.hparams.bert_pretrained_dir, self.hparams.bert_pretrained, self.hparams.bert_checkpoint_path)
-    self._logger.info(f"pretrained_model_path: {self.model_path}")
+    # example) ./resources/bert-base-uncased/
+    pretrained_dir = self.hparams.pretrained_dir
+    self._logger.info(f"pretrained_model_path: {pretrained_dir}")
+    pretrained_config = hparams.pretrained_config.from_pretrained(pretrained_dir)
     self._model = hparams.pretrained_model.from_pretrained(
-      self.model_path,
+      pretrained_dir,
       config=pretrained_config
     )
-
-    '''
-    if ".pth" in self.model_path:
-      checkpoint = torch.load(self.model_path)
-      state_dict = None
-      if 'model' in checkpoint:
-        state_dict = checkpoint['model']
-      else:
-        state_dict = checkpoint
-
-      self._model = hparams.pretrained_model.from_pretrained(
-        self.model_path,
-        config=pretrained_config,
-        state_dict=state_dict
-      )
-    else:
-      self._model = hparams.pretrained_model.from_pretrained(
-        self.model_path,
-        config=pretrained_config
-      )
-    '''
 
     self.device = (torch.device("cuda", self.hparams.gpu_ids[0]) if self.hparams.gpu_ids[0] >= 0 else torch.device("cpu"))
 

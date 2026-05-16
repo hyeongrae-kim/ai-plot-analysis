@@ -58,19 +58,16 @@ class NovelPlotDataset(Dataset):
         self._logger.info(f"model_type at dataset: {self.model_type}")
 
         if self.model_type.startswith("electra"):
-          self._tokenizer = ElectraTokenizerFast.from_pretrained("google/electra-large-discriminator")
+          self._tokenizer = ElectraTokenizerFast.from_pretrained(self.hparams.pretrained_dir)
           self._logger.info(f"===========get electra tokenizer==========")
         elif self.model_type.startswith("roberta"):
-          self._tokenizer = RobertaTokenizer.from_pretrained('roberta-large')
+          self._tokenizer = RobertaTokenizer.from_pretrained(self.hparams.pretrained_dir)
           self._logger.info(f"===========get roberta tokenizer==========")
         elif self.model_type.startswith("bge"):
-          self._tokenizer = AutoTokenizer.from_pretrained(
-            os.path.join(self.hparams.bert_pretrained_dir, self.hparams.bert_pretrained)
-          )
+          self._tokenizer = AutoTokenizer.from_pretrained(self.hparams.pretrained_dir)
           self._logger.info(f"===========get bge-m3 tokenizer==========")
         else:
-          bert_pretrained_dir = os.path.join(self.hparams.bert_pretrained_dir, self.hparams.bert_pretrained)
-          self._tokenizer = BertTokenizer(vocab_file=os.path.join(bert_pretrained_dir, "%s-vocab.txt" % self.hparams.bert_pretrained))
+          self._tokenizer = BertTokenizer.from_pretrained(self.hparams.pretrained_dir)
           self._logger.info(f"===========get bert tokenizer==========")
  
     def __len__(self):

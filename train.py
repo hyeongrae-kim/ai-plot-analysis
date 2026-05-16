@@ -147,7 +147,7 @@ class PlotAnalysis(object): # Fine-tuning
     self.checkpoint_manager = CheckpointManager(self.model, self.optimizer, self.save_dirpath, hparams=self.hparams)
     
     # if not use post training, comment below lines
-    load_pthpath = os.path.join(self.hparams.bert_pretrained_dir, self.hparams.bert_pretrained, self.hparams.bert_checkpoint_path)
+    load_pthpath = os.path.join(self.hparams.pretrained_dir, self.hparams.model_pth_path)
     if ".pth" in load_pthpath:
       model_state_dict, optimizer_state_dict = load_checkpoint(load_pthpath)
       if isinstance(self.model, nn.DataParallel):

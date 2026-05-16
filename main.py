@@ -125,15 +125,9 @@ if __name__ == '__main__':
                           help="model train logs, checkpoints")
   arg_parser.add_argument("--data_dir", dest="data_dir", type=str, required=True,
                           help="training pkl path | h5py files")  # novel_train.pkl, novel_valid_pkl, novel_test.pkl 
-  arg_parser.add_argument("--bert_pretrained_dir", dest="bert_pretrained_dir", type=str,
-                          default="./resources",
-                          help="bert pretrained directory")
-  arg_parser.add_argument("--bert_pretrained", dest="bert_pretrained", type=str,
-                          default="bert-base-uncased",
-                          help="bert pretrained directory")  # bert-base-uncased | bert-large-uncased
-  arg_parser.add_argument("--bert_checkpoint_path", dest="bert_checkpoint_path", type=str,
-                          default="bert-base-uncased-pytorch_model.bin",
-                          help="bert pretrained directory")  # bert-base-uncased | bert-large-uncased | bert-post-uncased
+  arg_parser.add_argument("--model_pth_path", dest="model_pth_path", type=str,
+                          default="",
+                          help="Filename of a .pth inside the pretrained model directory for warm-starting from custom weights. Empty = use HuggingFace pretrained only.")
   arg_parser.add_argument("--evaluate", dest="evaluate", type=str,
                           help="Evaluation Checkpoint", default="") 
   arg_parser.add_argument("--training_type", dest="training_type", type=str, default="fine_tuning",
@@ -161,9 +155,8 @@ if __name__ == '__main__':
   hparams["gpu_ids"] = list(range(len(args.gpu_ids.split(","))))
   hparams["root_dir"] = args.root_dir 
   hparams["data_dir"] = args.data_dir 
-  hparams["bert_pretrained_dir"] = args.bert_pretrained_dir
-  hparams["bert_pretrained"] = args.bert_pretrained 
-  hparams["bert_checkpoint_path"] = args.bert_checkpoint_path
+  hparams["pretrained_dir"] = os.path.join(PRETRAINED_ROOT, MODEL_DIR_MAP[args.model])
+  hparams["model_pth_path"] = args.model_pth_path
   hparams["model_type"] = args.model
   hparams["task_name"] = args.task_name
   hparams["task_type"] = args.task_type
@@ -187,7 +180,7 @@ if __name__ == '__main__':
     hparams.update(MULTI_TASK_TYPE_MAP[mt_type.strip()]) 
 
   hparams.update(DATASET_MAP[args.task_name]) 
-  hparams.update(PRETRAINED_MODEL_MAP[args.bert_pretrained.split("-")[0]]) 
+  hparams.update(PRETRAINED_MODEL_MAP[args.model.split("_")[0]])
 
   if args.evaluate:
     evaluate_model(args, hparams)
