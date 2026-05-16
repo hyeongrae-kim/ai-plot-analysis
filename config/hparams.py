@@ -33,6 +33,17 @@ BGE_M3_MODEL_PARAMS = dict(
   pretrained_model=AutoModel,
 )
 
+# Pretrained model resources — model_type key -> resources/{dir_name}/
+PRETRAINED_ROOT = "./resources"
+MODEL_DIR_MAP = {
+  "bert_base": "bert-base-uncased",
+  "bert_large": "bert-large-uncased",
+  "electra_base": "electra-base-discriminator",
+  "electra_large": "electra-large-discriminator",
+  "roberta_large": "roberta-large",
+  "bge_m3": "bge-m3",
+}
+
 # DATASET
 NOVEL_PARAMS = defaultdict(
   evaluate_candidates_num=10,

@@ -72,9 +72,13 @@ logs/
 *.pkl
 *.joblib
 
-# bge-m3 resources — only config.json is tracked (rest via scripts/download_bge_m3.py)
-resources/bge-m3/*
-!resources/bge-m3/config.json
+# Pretrained model resources — only config.json is tracked per model
+# (weights/tokenizer fetched via scripts/download_pretrained.py)
+resources/*/*
+!resources/*/config.json
 
 # Experiment outputs
 bge_m3/
+
+# dataset
+data/eval_dataset.json
